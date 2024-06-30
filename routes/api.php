@@ -1,10 +1,8 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PolicyController;
-use App\Http\Controllers\ClaimController;
-use App\Http\Controllers\InvoiceController;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -12,15 +10,22 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
     Route::get('/policies', [App\Http\Controllers\PolicyController::class, 'index']);
     Route::get('/policies/{id}', [App\Http\Controllers\PolicyController::class, 'show']);
-    // Route::post('/policies', 'App\Http\Controllers\PolicyController@store');
-    // Route::put('/policies/{id}', 'App\Http\Controllers\PolicyController@update');  
-    // Route::delete('/policies/{id}', 'App\Http\Controllers\PolicyController@delete');
-
+   
     Route::get('/claims', [App\Http\Controllers\ClaimController::class, 'index']);
     Route::get('/claims/{id}', [App\Http\Controllers\ClaimController::class, 'show']);
-    // Route::post('/claims', 'App\Http\Controllers\ClaimController@store');
-    // Route::put('/claims/{id}', 'App\Http\Controllers\ClaimController@update');  
-    // Route::delete('/claims/{id}', 'App\Http\Controllers\ClaimController@delete');
+    
+    Route::get('/invoices', [App\Http\Controllers\InvoiceController::class, 'index']);
+    Route::get('/invoices/{id}', [App\Http\Controllers\InvoiceController::class, 'show']);
 
-    // user/{id}/policies
-    // user/{id}/claims
+    Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'index']);
+    Route::get('/payments/{id}', [App\Http\Controllers\PaymentController::class, 'show']);
+
+    Route::get('/users', [App\Http\Controllers\UserController::class, 'index']);
+    Route::get('/users/{id}', [App\Http\Controllers\UserController::class, 'show']);
+
+    Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index']);
+    Route::get('/notifiactions/{id}', [App\Http\Controllers\NotificationController::class, 'show']);
+
+    Route::get('/users/{id}/claims', [UserController::class, 'claims']);
+    Route::get('/users/{id}/invoices', [UserController::class, 'invoices']);
+    Route::get('/users/{id}/policies', [UserController::class, 'policies']);

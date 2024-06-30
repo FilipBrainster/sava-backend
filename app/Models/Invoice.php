@@ -4,22 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Invoice;  
 
-class Policy extends Model
+class Invoice extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
-        'policy_number',
-        'policy_type',
-        'package',
-        'num_of_persons',
-        'insured_people',
-        'start_date',
-        'end_date',
+        'policy_id',
+        'invoice_number',
+        'issue_date',
+        'due_date',
+        'amount',
         'status',
+        'payment_method',
     ];
 
     public function user()
@@ -27,8 +25,8 @@ class Policy extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function invoices()
+    public function policy()
     {
-        return $this->hasMany(Invoice::class);
+        return $this->belongsTo(Policy::class);
     }
 }

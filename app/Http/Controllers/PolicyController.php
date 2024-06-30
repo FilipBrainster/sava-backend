@@ -10,44 +10,25 @@ class PolicyController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        return Policy::where('user_id', $user->id)->get();
+        // $user = Auth::user();
+        $policies = Policy::all();
+        return response()->json($policies);
     }
 
     public function show($id)
     {
         $user = Auth::user();
-        $policy = Policy::where('id', $id)->where('user_id', $user->id)->firstOrFail();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
+        }
+
+        $policy = Policy::where('id', $id)->where('user_id', $user->id)->first();
+
+        if (!$policy) {
+            return response()->json(['message' => 'Policy not found or not authorized'], 404);
+        }
+
         return response()->json($policy);
     }
-
-    // public function store(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'policyNum' => 'required|string|max:255',
-    //     ]);
-
-    //     $policy = Policy::create($validatedData);
-    //     return response()->json(['message' => 'Policy created successfully', 'policy' => $policy], 201);
-    // }
-
-    // public function update(Request $request, $id)
-    // {
-    //     $policy = Policy::findOrFail($id);
-
-    //     $validatedData = $request->validate([
-    //         'policyNum' => 'required|string|max:255',
-    //     ]);
-
-    //     $policy->update($validatedData);
-    //     return response()->json(['message' => 'Policy updated successfully', 'policy' => $policy]);
-    // }
-
-    // public function delete($id)
-    // {
-    //     $policy = Policy::findOrFail($id);
-    //     $policy->delete();
-
-    //     return response()->json(['message' => 'Policy deleted successfully']);
-    // }
 }
+
